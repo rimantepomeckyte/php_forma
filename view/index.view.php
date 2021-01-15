@@ -12,6 +12,14 @@
     <section>
         <?php if (isset($_POST['send'])):?>
         <h2>Formos duomenys</h2>
+        <?php $validation_errors = [
+                "Vardas turi prasideta didziaja raide",
+            "Blogai ivesta pavarde"
+        ]; ?>
+        <?php if(!preg_match("/^[a-zA-Z]/",$_POST['name'])): ?>
+            <li><?=$validation_errors[0]?></li>
+        <?php endif; ?>
+
         <?php foreach ($_POST as $field => $value): ?>
             <?php if($field != "send"):?>
 
@@ -19,28 +27,36 @@
             <?php endif; ?>
         <?php endforeach; ?>
     </section>
-        <?php else:?>
-            <form method="post">
-                <div class="form-group">
-                    <label for="name">Vardas:</label>
-                    <input type="text" name="name" id="name" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="lastname">Pavarde:</label>
-                    <input type="text" name="lastname" id="lastname" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" name="email" id="email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="message">Zinute:</label>
-                    <input type="text" name="message" id="message" class="form-control">
-                </div>
+    <?php else: ?>
+        <form method="post">
+            <div class="form-group">
+                <label for="name">Vardas:</label>
+                <input type="text" name="name" id="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="lastname">Pavarde:</label>
+                <input type="text" name="lastname" id="lastname" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email" class="form-control">
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="departmentsselect" name="departament">
+                    <option value="" disabled selected>--Pasirinkite departamenta</option>
+                    <?php for ($i = 0; $i < count($company); $i++): ?>
+                        <option><?= $company[$i]; ?></option>
+                    <?php endfor; ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">Zinute:</label>
+                <input type="text" name="message" id="message" class="form-control">
+            </div>
 
-                <button type="submit" name="send" id="send" class="mt-3 btn btn-primary btn-lg text-center">Siusti</button>
-            </form>
-        <?php endif; ?>
+            <button type="submit" name="send" id="send" class="mt-3 btn btn-primary btn-lg text-center">Siusti</button>
+        </form>
+    <?php endif; ?>
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
