@@ -8,7 +8,7 @@
 
 </head>
 <body>
-<div class="container d-flex justify-content-center">
+<div class="container">
     <section>
         <?php if (isset($_POST['send'])):?>
         <h2>Formos duomenys</h2>
@@ -20,7 +20,7 @@
         <?php endforeach; ?>
     </section>
         <?php else:?>
-            <form method="post" class="w-100">
+            <form method="post">
                 <div class="form-group">
                     <label for="name">Vardas:</label>
                     <input type="text" name="name" id="name" class="form-control">
