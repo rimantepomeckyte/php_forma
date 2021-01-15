@@ -11,32 +11,29 @@
 <div class="container">
     <section>
         <?php if (isset($_POST['send'])): ?>
-        <h2>Formos duomenys</h2>
-        <?php
-          $errors = [
-            "Vardas/pavarde turi prasideti didziaja raide",
-            "Blogai ivesta zinute"
-        ];
-          $validation_errors=[];?>
+            <h2>Formos duomenys</h2>
+            <?php
+            $validation_errors = []; ?>
 
-      <?php if (!preg_match('/^[A-Z]/', $_POST['name'])): ?>
-        <?php $validation_errors = "Blogai ivestas vardas";?>
-          <li> <?=$validation_errors?></li>
+            <?php if (!preg_match('/^[A-Z]/', $_POST['name'])): ?>
+                <?php $validation_errors = "Blogai ivestas vardas"; ?>
+                <div class="alert alert-danger" role="alert"> <?= $validation_errors ?></div>
+            <?php endif ?>
+            <?php if (!preg_match('/^[A-Z]/', $_POST['lastname'])): ?>
+                <?php $validation_errors = "Blogai ivesta pavarde"; ?>
+                <div class="alert alert-danger" role="alert"> <?= $validation_errors ?></div>
+            <?php endif ?>
+            <?php if (empty($_POST['message']) & !preg_match('/^[A-Za-z0-9]{1,200}$/', $_POST['message'])): ?>
+                <?php $validation_errors = "Blogai parasyta zinute"; ?>
+                <div class="alert alert-danger" role="alert"> <?= $validation_errors ?></div>
+            <?php endif ?>
         <?php endif ?>
-        <?php if (!preg_match('/^[A-Z]/', $_POST['lastname'])): ?>
-            <?php $validation_errors = "Blogai ivesta pavarde";?>
-            <li> <?=$validation_errors?></li>
-        <?php endif ?>
-        <?php if (!preg_match('{1,200}', $_POST['message'])): ?>
-            <?php $validation_errors = "Blogai parasyta zinute";?>
-            <li> <?=$validation_errors?></li>
-        <?php endif ?>
-
-            <?php foreach ($_POST as $field => $value): ?>
-                <?php if ($field != "send" & !$validation_errors): ?>
-                    <li><span><?= ucfirst($field); ?>: </span><?= $value ?></li>
-                <?php endif; ?>
-            <?php endforeach; ?>
+        <?php if (isset($_POST['send']) & empty($validation_errors)): ?>
+        <?php foreach ($_POST as $field => $value): ?>
+            <?php if ($field != "send" & !$validation_errors): ?>
+                <li><span><?= ucfirst($field); ?>: </span><?= $value ?></li>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </section>
     <?php else: ?>
         <form method="post">
