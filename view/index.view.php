@@ -11,31 +11,20 @@
 <div class="container">
     <section>
         <?php if (isset($_POST['send'])): ?>
-            <h2>Formos duomenys</h2>
-            <?php
-            $validation_errors = []; ?>
+            <?php validate($_POST); ?>
 
-            <?php if (!preg_match('/^[A-Z]/', $_POST['name'])): ?>
-                <?php $validation_errors = "Blogai ivestas vardas"; ?>
-                <div class="alert alert-danger" role="alert"> <?= $validation_errors ?></div>
-            <?php endif ?>
-            <?php if (!preg_match('/^[A-Z]/', $_POST['lastname'])): ?>
-                <?php $validation_errors = "Blogai ivesta pavarde"; ?>
-                <div class="alert alert-danger" role="alert"> <?= $validation_errors ?></div>
-            <?php endif ?>
-            <?php if (empty($_POST['message']) & !preg_match('/^[A-Za-z0-9]{1,200}$/', $_POST['message'])): ?>
-                <?php $validation_errors = "Blogai parasyta zinute"; ?>
-                <div class="alert alert-danger" role="alert"> <?= $validation_errors ?></div>
-            <?php endif ?>
+
         <?php endif ?>
         <?php if (isset($_POST['send']) & empty($validation_errors)): ?>
-        <?php foreach ($_POST as $field => $value): ?>
-            <?php if ($field != "send" & !$validation_errors): ?>
-                <li><span><?= ucfirst($field); ?>: </span><?= $value ?></li>
-            <?php endif; ?>
-        <?php endforeach; ?>
+        <h2>Formos duomenys</h2>
+        <?php printData();?>
     </section>
     <?php else: ?>
+        <?php foreach ($validation_errors as $errors): ?>
+            <div class="alert alert-danger m-2" role="alert">
+                <?= $errors; ?>
+            </div>
+        <?php endforeach; ?>
         <form method="post">
             <div class="form-group">
                 <label for="name">Vardas:</label>
@@ -53,7 +42,7 @@
                 <select class="form-control" id="departmentsselect" name="departament">
                     <option value="" disabled selected>--Pasirinkite departamenta</option>
                     <?php for ($i = 0; $i < count($company); $i++): ?>
-                        <option><?= $company[$i]; ?></option>
+                        <option><?= ucfirst($company[$i]); ?></option>
                     <?php endfor; ?>
                 </select>
             </div>
